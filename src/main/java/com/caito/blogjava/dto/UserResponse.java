@@ -10,14 +10,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewUser implements Serializable {
+@Getter
+@Setter
+public class UserResponse implements Serializable {
+    private Long id;
     private String name;
     private String userName;
     private String email;
-    private String password;
-    private String roles;
+    private Set<Role> roles = new HashSet<>();
 }
