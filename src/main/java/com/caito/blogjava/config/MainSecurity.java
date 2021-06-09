@@ -1,6 +1,7 @@
 package com.caito.blogjava.config;
 
 import com.caito.blogjava.security.UserDetailsServiceImpl;
+import com.caito.blogjava.security.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,15 +11,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MainSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -45,8 +50,11 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/**").permitAll()
+                .antMatchers("/api/v1/auth/login", "/api/v1/users/create").permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
