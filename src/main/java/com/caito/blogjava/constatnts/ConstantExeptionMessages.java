@@ -11,4 +11,7 @@ public final class ConstantExeptionMessages {
     public static final String MSG_ARTICLE_TITLE_EMPTY = "El titulo es requerido";
     public static final String MSG_ARTICLE_CONTENT_EMPTY = "El articulo debe tener contenido";
     public static final String MSG_ARTICLE_NOT_FOUND = "no existe el articulo";
+
+    public static final String MSG_COMMENT_EMPTY_CONTENT = "El contenido no puede estar vacio";
+    public static final String MSG_COMMENT_NOT_FOUND = "El comentario no existe";
 }
