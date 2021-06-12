@@ -3,6 +3,7 @@ package com.caito.blogjava.service.implementation;
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.dto.ArticleResponse;
 import com.caito.blogjava.dto.NewArticle;
+import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.entity.Article;
 import com.caito.blogjava.exceptions.customs.BadRequestException;
 import com.caito.blogjava.repository.ArticleRepository;
@@ -41,7 +42,9 @@ public class ArticleService implements IArticleService {
         Article article = articleRepository.findById(id).orElseThrow(()-> new NotFoundException(
                 ConstantExeptionMessages.MSG_ARTICLE_NOT_FOUND));
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(article, ArticleResponse.class);
+        UserResponse userResponse = mapper.map(article.getUser(), UserResponse.class);
+        ArticleResponse response = new ArticleResponse(article.getId(),article.getTitle(),userResponse,article.getContent());
+        return response;
     }
 
     @Override
