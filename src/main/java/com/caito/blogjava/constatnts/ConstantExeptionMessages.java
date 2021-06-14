@@ -14,4 +14,6 @@ public final class ConstantExeptionMessages {
 
     public static final String MSG_COMMENT_EMPTY_CONTENT = "El contenido no puede estar vacio";
     public static final String MSG_COMMENT_NOT_FOUND = "El comentario no existe";
+
+    public static final String MSG_FILE_NOT_IMAGE = "Archivo de imagen no valida";
 }

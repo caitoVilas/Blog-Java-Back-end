@@ -1,10 +1,13 @@
 package com.caito.blogjava.service.implementation;
 
+import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +27,10 @@ public class CloudinaryService {
     }
 
     public Map upload(MultipartFile multipartFile) throws IOException {
+        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+        if (bi == null){
+            throw new IOException(ConstantExeptionMessages.MSG_FILE_NOT_IMAGE);
+        }
         File file = convert(multipartFile);
         Map result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
         file.delete();
