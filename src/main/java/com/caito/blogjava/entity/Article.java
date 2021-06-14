@@ -39,5 +39,7 @@ public final class Article {
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
+    private String imageURL;
+    private String iamgeID;
 
 }

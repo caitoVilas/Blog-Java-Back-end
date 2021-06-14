@@ -20,4 +20,6 @@ public class UserResponse implements Serializable {
     private String userName;
     private String email;
     private Set<Role> roles = new HashSet<>();
+    private String imageURL;
+    private String imageID;
 }

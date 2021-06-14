@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,7 +21,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping
-    public ResponseEntity<ArticleResponse> createArticle(@RequestBody NewArticle newArticle){
+    public ResponseEntity<ArticleResponse> createArticle(@RequestBody NewArticle newArticle) throws IOException {
         return new ResponseEntity<ArticleResponse>(articleService.createArticle(newArticle), HttpStatus.CREATED);
     }
 
@@ -42,5 +44,11 @@ public class ArticleController {
     public ResponseEntity<ArticleResponse> updateArticle(@PathVariable("id") Long id,
                                                          @RequestBody NewArticle newArticle){
         return new ResponseEntity<ArticleResponse>(articleService.updateArticle(id, newArticle), HttpStatus.OK);
+    }
+
+    @PostMapping("/up-image")
+    public ResponseEntity<ArticleResponse> uploadImage(@RequestParam MultipartFile file,
+                                                       @RequestParam Long id) throws NotFoundException, IOException {
+        return new ResponseEntity<ArticleResponse>(articleService.uploadImage(file, id), HttpStatus.OK);
     }
 }

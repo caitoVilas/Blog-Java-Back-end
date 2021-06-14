@@ -17,4 +17,6 @@ public final class ArticleResponse implements Serializable {
     private String title;
     private UserResponse user;
     private String content;
+    private String imageURL;
+    private String imageID;
 }

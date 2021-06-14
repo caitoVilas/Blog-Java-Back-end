@@ -1,14 +1,18 @@
 package com.caito.blogjava.controller;
 
+import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.dto.NewUser;
 import com.caito.blogjava.dto.UserResponse;
+import com.caito.blogjava.exceptions.customs.BadRequestException;
 import com.caito.blogjava.service.implementation.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,8 +23,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody NewUser newUser){
-        UserResponse response = userService.ceateUser(newUser);
+    public ResponseEntity<?> createUser(@RequestBody NewUser newUser, MultipartFile file) throws IOException {
+        UserResponse response = userService.ceateUser(newUser, file);
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
@@ -46,4 +50,11 @@ public class UserController {
         return new ResponseEntity<UserResponse>(userService.updateUser(id,newUser),
                 HttpStatus.OK);
     }
+
+    @PostMapping("/up-image")
+    public ResponseEntity<UserResponse> uploadImage(@RequestParam MultipartFile file,
+                                                    @RequestParam Long id) throws NotFoundException, IOException {
+        return new ResponseEntity<UserResponse>(userService.uploadImage(file, id), HttpStatus.OK);
+    }
+
 }
