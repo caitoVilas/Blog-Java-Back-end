@@ -15,11 +15,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -29,6 +28,8 @@ public class UserService implements IUserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Override
     public User findByUserName(String userName) throws NotFoundException {
@@ -38,7 +39,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse ceateUser(NewUser newUser) {
+    public UserResponse ceateUser(NewUser newUser, MultipartFile file) throws IOException {
         if (newUser.getName() == null || newUser.getName() == "") {
             throw new BadRequestException(ConstantExeptionMessages.MSG_USER_NAME_EMPTY);
         }
@@ -54,9 +55,15 @@ public class UserService implements IUserService {
         if (newUser.getPassword() == null || newUser.getPassword() == ""){
             throw new BadRequestException(ConstantExeptionMessages.MSG_USER_PASSWORD_EMPTY);
         }
+
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(newUser, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (file != null){
+            Map result = cloudinaryService.upload(file);
+            user.setImageID((String) result.get("public_id"));
+            user.setImageURL((String) result.get("url"));
+        }
         Set<Role> roles = new HashSet<>();
         if (newUser.getRoles().contains("admin")){
             roles.add(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get());
@@ -118,6 +125,23 @@ public class UserService implements IUserService {
         ModelMapper mapper = new ModelMapper();
         UserResponse response = mapper.map(oldUser, UserResponse.class);
 
+        return response;
+    }
+
+    @Override
+    public UserResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException {
+
+        if (file == null) {
+            throw new BadRequestException(ConstantExeptionMessages.MSG_FILE_EMPTY);
+        }
+        User user = userRepository.findById(id).orElseThrow(()-> new NotFoundException(
+                ConstantExeptionMessages.MSG_USER_NOT_FOUND));
+        Map result = cloudinaryService.upload(file);
+        user.setImageURL((String) result.get("url"));
+        user.setImageID((String) result.get("public_id"));
+        userRepository.save(user);
+        ModelMapper mapper = new ModelMapper();
+        UserResponse response = mapper.map(user, UserResponse.class);
         return response;
     }
 }

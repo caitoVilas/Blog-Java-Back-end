@@ -52,4 +52,6 @@ public final class User {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+    private String imageURL;
+    private String imageID;
 }
