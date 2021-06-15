@@ -59,6 +59,7 @@ public class ArticleService implements IArticleService {
         List<Article> articles = articleRepository.findAll();
         ModelMapper mapper = new ModelMapper();
         List<ArticleResponse> response = Arrays.asList(mapper.map(articles, ArticleResponse[].class));
+
         return response;
     }
 

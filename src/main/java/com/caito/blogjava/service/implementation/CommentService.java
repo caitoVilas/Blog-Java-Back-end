@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -55,10 +56,12 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public List<Comment> getComments(Long article_id) {
+    public List<CommentResponse> getComments(Long article_id) {
         articleRepository.findById(article_id).orElseThrow(()-> new BadRequestException(
                 ConstantExeptionMessages.MSG_ARTICLE_NOT_FOUND));
-        List<Comment> response = commentRepository.findAllByArticle_id(article_id);
+        List<Comment> comments = commentRepository.findAllByArticle_id(article_id);
+        ModelMapper mapper = new ModelMapper();
+        List<CommentResponse> response = Arrays.asList(mapper.map(comments, CommentResponse[].class));
         return response;
     }
 

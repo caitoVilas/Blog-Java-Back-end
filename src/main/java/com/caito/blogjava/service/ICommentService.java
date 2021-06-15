@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ICommentService {
     public CommentResponse createComment( CommentNew commentNew);
-    public List<Comment> getComments(Long article_id);
+    public List<CommentResponse> getComments(Long article_id);
     public CommentResponse getComment(Long id) throws NotFoundException;
     public CommentResponse updateComment(Long id, CommentNew commentNew);
     public void deleteComment(Long id) throws NotFoundException;
