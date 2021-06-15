@@ -51,6 +51,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/login", "/api/v1/users/create").permitAll()
+                .antMatchers("/", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
+                        "/configuration/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
