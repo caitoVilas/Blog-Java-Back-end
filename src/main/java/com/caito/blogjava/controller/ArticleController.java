@@ -5,6 +5,8 @@ import com.caito.blogjava.dto.NewArticle;
 import com.caito.blogjava.service.implementation.ArticleService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +52,10 @@ public class ArticleController {
     public ResponseEntity<ArticleResponse> uploadImage(@RequestParam MultipartFile file,
                                                        @RequestParam Long id) throws NotFoundException, IOException {
         return new ResponseEntity<ArticleResponse>(articleService.uploadImage(file, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/pageable")
+    public ResponseEntity<String> getAllrticlesPageable(@PageableDefault(size = 10, page = 0)Pageable pageable){
+        return new ResponseEntity<String>(articleService.GetAllPaginator(pageable), HttpStatus.OK);
     }
 }

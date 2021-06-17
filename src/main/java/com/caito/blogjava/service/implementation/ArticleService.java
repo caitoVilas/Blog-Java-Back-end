@@ -1,5 +1,6 @@
 package com.caito.blogjava.service.implementation;
 
+import com.caito.blogjava.components.PaginationComponent;
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.dto.ArticleResponse;
 import com.caito.blogjava.dto.NewArticle;
@@ -11,6 +12,8 @@ import com.caito.blogjava.service.IArticleService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,8 @@ public class ArticleService implements IArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private PaginationComponent paginationComponent;
 
 
     @Override
@@ -99,6 +104,19 @@ public class ArticleService implements IArticleService {
         ModelMapper mapper = new ModelMapper();
         ArticleResponse response = mapper.map(article, ArticleResponse.class);
         return response;
+    }
+
+    @Override
+    public String GetAllPaginator(Pageable pageable) {
+        Page<Article> articles = articleRepository.findAll(pageable);
+        ModelMapper mapper = new ModelMapper();
+        return paginationComponent.paginationResponse(articles.map(this::articleToDto));
+    }
+
+    private ArticleResponse articleToDto(Article article){
+        ModelMapper mapper = new ModelMapper();
+        ArticleResponse map = mapper.map(article,ArticleResponse.class);
+        return map;
     }
 
 }
