@@ -1,5 +1,6 @@
 package com.caito.blogjava.service.implementation;
 
+import com.caito.blogjava.components.PaginationComponent;
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.dto.NewUser;
 import com.caito.blogjava.dto.UserResponse;
@@ -13,6 +14,8 @@ import com.caito.blogjava.service.IUserService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +33,8 @@ public class UserService implements IUserService {
     private RoleRepository roleRepository;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private PaginationComponent paginationComponent;
 
     @Override
     public User findByUserName(String userName) throws NotFoundException {
@@ -143,5 +148,17 @@ public class UserService implements IUserService {
         ModelMapper mapper = new ModelMapper();
         UserResponse response = mapper.map(user, UserResponse.class);
         return response;
+    }
+
+    @Override
+    public String getAllPagination(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return paginationComponent.paginationResponse(users.map(this::userToDto));
+    }
+
+    private UserResponse userToDto(User user){
+        ModelMapper mapper = new ModelMapper();
+        UserResponse map = mapper.map(user, UserResponse.class);
+        return map;
     }
 }
