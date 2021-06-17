@@ -109,7 +109,6 @@ public class ArticleService implements IArticleService {
     @Override
     public String GetAllPaginator(Pageable pageable) {
         Page<Article> articles = articleRepository.findAll(pageable);
-        ModelMapper mapper = new ModelMapper();
         return paginationComponent.paginationResponse(articles.map(this::articleToDto));
     }
 

@@ -7,6 +7,8 @@ import com.caito.blogjava.exceptions.customs.BadRequestException;
 import com.caito.blogjava.service.implementation.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,11 @@ public class UserController {
     public ResponseEntity<UserResponse> uploadImage(@RequestParam MultipartFile file,
                                                     @RequestParam Long id) throws NotFoundException, IOException {
         return new ResponseEntity<UserResponse>(userService.uploadImage(file, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/pageable")
+    public ResponseEntity<String> getAllPageable(@PageableDefault(page = 0, size = 10)Pageable pageable){
+        return new ResponseEntity<String>(userService.getAllPagination(pageable), HttpStatus.OK);
     }
 
 }
