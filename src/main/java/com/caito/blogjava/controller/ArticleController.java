@@ -38,7 +38,8 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteArticle(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteArticle(@PathVariable("id") Long id) throws IOException {
+        articleService.deleteArticle(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

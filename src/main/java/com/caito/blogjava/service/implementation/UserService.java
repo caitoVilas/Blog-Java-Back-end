@@ -95,9 +95,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(Long id) throws NotFoundException {
+    public void deleteUser(Long id) throws NotFoundException, IOException {
         User user = userRepository.findById(id).orElseThrow(()-> new NotFoundException(
                 ConstantExeptionMessages.MSG_USER_NOT_FOUND));
+        if (user.getImageID() != null){
+            cloudinaryService.delete(user.getImageID());
+            user.setImageID(null);
+            user.setImageURL(null);
+            userRepository.save(user);
+        }
         userRepository.deleteById(id);
     }
 
@@ -141,6 +147,11 @@ public class UserService implements IUserService {
         }
         User user = userRepository.findById(id).orElseThrow(()-> new NotFoundException(
                 ConstantExeptionMessages.MSG_USER_NOT_FOUND));
+        if (user.getImageID() != null){
+            cloudinaryService.delete(user.getImageID());
+            user.setImageID(null);
+            user.setImageURL(null);
+        }
         Map result = cloudinaryService.upload(file);
         user.setImageURL((String) result.get("url"));
         user.setImageID((String) result.get("public_id"));
