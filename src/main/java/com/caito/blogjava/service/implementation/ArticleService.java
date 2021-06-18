@@ -69,9 +69,15 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public void deleteArticle(Long id) {
+    public void deleteArticle(Long id) throws IOException {
         Article article = articleRepository.findById(id).orElseThrow(()-> new BadRequestException(
                 ConstantExeptionMessages.MSG_ARTICLE_NOT_FOUND));
+        if (article.getIamgeID() != null){
+            cloudinaryService.delete(article.getIamgeID());
+            article.setIamgeID(null);
+            article.setImageURL(null);
+            articleRepository.save(article);
+        }
         articleRepository.deleteById(id);
     }
 
@@ -97,6 +103,11 @@ public class ArticleService implements IArticleService {
         }
         Article article = articleRepository.findById(id).orElseThrow(()-> new NotFoundException(
                 ConstantExeptionMessages.MSG_ARTICLE_NOT_FOUND));
+        if (article.getIamgeID() != null){
+            cloudinaryService.delete(article.getIamgeID());
+            article.setImageURL(null);
+            article.setIamgeID(null);
+        }
         Map result = cloudinaryService.upload(file);
         article.setImageURL((String) result.get("url"));
         article.setIamgeID((String) result.get("public_id"));

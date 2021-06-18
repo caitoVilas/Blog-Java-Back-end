@@ -15,7 +15,7 @@ public interface IUserService {
     public User findByUserName(String userName) throws NotFoundException;
     public UserResponse ceateUser(NewUser newUser, MultipartFile file) throws IOException;
     public UserResponse findById(Long id) throws NotFoundException;
-    public void deleteUser(Long id) throws NotFoundException;
+    public void deleteUser(Long id) throws NotFoundException, IOException;
     public List<UserResponse> ListAllUsers();
     public UserResponse updateUser(Long id, NewUser newUser) throws NotFoundException;
     public UserResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;

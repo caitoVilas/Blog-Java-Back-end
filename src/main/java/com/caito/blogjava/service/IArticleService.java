@@ -13,7 +13,7 @@ public interface IArticleService {
     public ArticleResponse createArticle(NewArticle newArticle) throws IOException;
     public ArticleResponse getArticle(Long id) throws NotFoundException;
     public List<ArticleResponse> getAllArticles();
-    public void deleteArticle(Long id);
+    public void deleteArticle(Long id) throws IOException;
     public ArticleResponse updateArticle(Long id, NewArticle newArticle);
     public ArticleResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
     public String GetAllPaginator(Pageable pageable);
