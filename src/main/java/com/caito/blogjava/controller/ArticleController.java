@@ -1,8 +1,11 @@
 package com.caito.blogjava.controller;
 
+import com.caito.blogjava.constatnts.ConstantsSwagger;
 import com.caito.blogjava.dto.ArticleResponse;
 import com.caito.blogjava.dto.NewArticle;
 import com.caito.blogjava.service.implementation.ArticleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,44 +21,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/articles")
 @CrossOrigin
+@Api(value = ConstantsSwagger.MSG_SW_ARTICLES_API_VALUE, tags = ConstantsSwagger.MSG_SW_ARTICLES_API_TAG)
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
     @PostMapping
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_CREATE, response = ArticleResponse.class)
     public ResponseEntity<ArticleResponse> createArticle(@RequestBody NewArticle newArticle) throws IOException {
         return new ResponseEntity<ArticleResponse>(articleService.createArticle(newArticle), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_GETONE, response = ArticleResponse.class)
     public ResponseEntity<ArticleResponse> getArticle(@PathVariable("id") Long id) throws NotFoundException {
         return new ResponseEntity<ArticleResponse>(articleService.getArticle(id), HttpStatus.OK);
     }
 
     @GetMapping
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_LIST_ALL)
     public ResponseEntity<List<ArticleResponse>> getAllArticles(){
         return new ResponseEntity<List<ArticleResponse>>(articleService.getAllArticles(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_DELETE)
     public ResponseEntity<?> deleteArticle(@PathVariable("id") Long id) throws IOException {
         articleService.deleteArticle(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_UPDATE, response = ArticleResponse.class)
     public ResponseEntity<ArticleResponse> updateArticle(@PathVariable("id") Long id,
                                                          @RequestBody NewArticle newArticle){
         return new ResponseEntity<ArticleResponse>(articleService.updateArticle(id, newArticle), HttpStatus.OK);
     }
 
     @PostMapping("/up-image")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_UPLOAD_IMAGE)
     public ResponseEntity<ArticleResponse> uploadImage(@RequestParam MultipartFile file,
                                                        @RequestParam Long id) throws NotFoundException, IOException {
         return new ResponseEntity<ArticleResponse>(articleService.uploadImage(file, id), HttpStatus.OK);
     }
 
     @GetMapping("/pageable")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_LIST_PAGEABLE)
     public ResponseEntity<String> getAllrticlesPageable(@PageableDefault(size = 10, page = 0)Pageable pageable){
         return new ResponseEntity<String>(articleService.GetAllPaginator(pageable), HttpStatus.OK);
     }
