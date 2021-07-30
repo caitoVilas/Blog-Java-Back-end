@@ -2,7 +2,9 @@ package com.caito.blogjava.service;
 
 import com.caito.blogjava.dto.ArticleResponse;
 import com.caito.blogjava.dto.NewArticle;
+import com.caito.blogjava.entity.Article;
 import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,5 +18,5 @@ public interface IArticleService {
     public void deleteArticle(Long id) throws IOException;
     public ArticleResponse updateArticle(Long id, NewArticle newArticle);
     public ArticleResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
-    public String GetAllPaginator(Pageable pageable);
+    public Page<Article> GetAllPaginator(Pageable pageable);
 }

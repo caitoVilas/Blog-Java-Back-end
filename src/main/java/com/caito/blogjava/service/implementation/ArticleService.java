@@ -55,7 +55,7 @@ public class ArticleService implements IArticleService {
         ModelMapper mapper = new ModelMapper();
         UserResponse userResponse = mapper.map(article.getUser(), UserResponse.class);
         ArticleResponse response = new ArticleResponse(article.getId(),article.getTitle(),userResponse,article.getContent(),
-                article.getImageURL(), article.getIamgeID());
+                article.getImageURL(), article.getIamgeID(), article.getCreated());
         return response;
     }
 
@@ -118,10 +118,17 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    public Page<Article> GetAllPaginator(Pageable pageable) {
+        return articleRepository.findAll(pageable);
+    }
+
+    /*@Override
     public String GetAllPaginator(Pageable pageable) {
         Page<Article> articles = articleRepository.findAll(pageable);
         return paginationComponent.paginationResponse(articles.map(this::articleToDto));
-    }
+    }*/
+
+
 
     private ArticleResponse articleToDto(Article article){
         ModelMapper mapper = new ModelMapper();

@@ -53,6 +53,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/auth/login", "/api/v1/users/create").permitAll()
                 .antMatchers("/", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
                         "/configuration/**").permitAll()
+                .antMatchers("/api/v1/articles/all", "/api/v1/articles/pageable").permitAll()
+                .antMatchers("/api/v1/articles/{id}").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

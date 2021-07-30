@@ -3,13 +3,15 @@ package com.caito.blogjava.controller;
 import com.caito.blogjava.constatnts.ConstantsSwagger;
 import com.caito.blogjava.dto.ArticleResponse;
 import com.caito.blogjava.dto.NewArticle;
+import com.caito.blogjava.entity.Article;
 import com.caito.blogjava.service.implementation.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +40,7 @@ public class ArticleController {
         return new ResponseEntity<ArticleResponse>(articleService.getArticle(id), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_LIST_ALL)
     public ResponseEntity<List<ArticleResponse>> getAllArticles(){
         return new ResponseEntity<List<ArticleResponse>>(articleService.getAllArticles(), HttpStatus.OK);
@@ -67,7 +69,25 @@ public class ArticleController {
 
     @GetMapping("/pageable")
     @ApiOperation(value = ConstantsSwagger.MSG_SW_ARTICLES_LIST_PAGEABLE)
-    public ResponseEntity<String> getAllrticlesPageable(@PageableDefault(size = 10, page = 0)Pageable pageable){
-        return new ResponseEntity<String>(articleService.GetAllPaginator(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<Article>> getAllrticlesPageable(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size,
+                @RequestParam(defaultValue = "id") String order,
+                @RequestParam(defaultValue = "false") boolean asc ){
+
+
+      Page<Article> articles = articleService.GetAllPaginator(PageRequest.of(
+              page,
+              size,
+              Sort.by(order)
+      ));
+      if(!asc){
+          articles = articleService.GetAllPaginator(PageRequest.of(
+                  page,
+                  size,
+                  Sort.by(order).descending()
+          ));
+      }
+      return new ResponseEntity<Page<Article>>(articles, HttpStatus.OK);
     }
 }

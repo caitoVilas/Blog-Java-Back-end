@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +20,5 @@ public final class ArticleResponse implements Serializable {
     private String content;
     private String imageURL;
     private String imageID;
+    private LocalDateTime created;
 }
