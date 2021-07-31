@@ -17,4 +17,8 @@ public final class ConstantExeptionMessages {
 
     public static final String MSG_FILE_NOT_IMAGE = "Archivo de imagen no valida";
     public static final String MSG_FILE_EMPTY = "La imagen e requerida";
+
+    public static final String MSG_MESSAGE_EMAIL_EMPTY = "El e-mail es requerido";
+    public static final String MSG_MESSAGE_MESSAGE_EMPTY = "No hay mensaje";
+    public static final String MSG_MESSAGE_MESAGE_NOT_FOUND = "Mensaje no encontrado";
 }

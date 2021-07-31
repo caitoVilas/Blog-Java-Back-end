@@ -55,6 +55,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                         "/configuration/**").permitAll()
                 .antMatchers("/api/v1/articles/all", "/api/v1/articles/pageable").permitAll()
                 .antMatchers("/api/v1/articles/{id}").permitAll()
+                .antMatchers("/api/v1/user-messages/create").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
