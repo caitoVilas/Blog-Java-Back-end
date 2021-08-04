@@ -77,9 +77,9 @@ public class UserController {
 
     @GetMapping("/user/{userName}")
     @ApiOperation(value = ConstantsSwagger.MSG_SW_GET_USERS_BY_USERMANE)
-    public ResponseEntity<NewUser> getByUserName(@RequestParam("userName") String userName) throws NotFoundException {
+    public ResponseEntity<UserResponse> getByUserName(@PathVariable("userName") String userName) throws NotFoundException {
 
-        return new ResponseEntity<NewUser>(userService.getByUserName(userName), HttpStatus.OK);
+        return new ResponseEntity<UserResponse>(userService.getByUserName(userName), HttpStatus.OK);
     }
 
 }
