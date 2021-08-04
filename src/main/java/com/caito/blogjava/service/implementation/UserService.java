@@ -167,6 +167,14 @@ public class UserService implements IUserService {
         return paginationComponent.paginationResponse(users.map(this::userToDto));
     }
 
+    @Override
+    public NewUser getByUserName(String userName) throws NotFoundException {
+        User user = userRepository.findByUserName(userName).orElseThrow(()-> new  NotFoundException(
+                ConstantExeptionMessages.MSG_USER_NOT_FOUND.concat(userName)));
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(user, NewUser.class);
+    }
+
     private UserResponse userToDto(User user){
         ModelMapper mapper = new ModelMapper();
         UserResponse map = mapper.map(user, UserResponse.class);

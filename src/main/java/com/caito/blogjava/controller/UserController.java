@@ -75,4 +75,11 @@ public class UserController {
         return new ResponseEntity<String>(userService.getAllPagination(pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userName}")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_GET_USERS_BY_USERMANE)
+    public ResponseEntity<NewUser> getByUserName(@RequestParam("userName") String userName) throws NotFoundException {
+
+        return new ResponseEntity<NewUser>(userService.getByUserName(userName), HttpStatus.OK);
+    }
+
 }
