@@ -20,4 +20,5 @@ public interface IUserService {
     public UserResponse updateUser(Long id, NewUser newUser) throws NotFoundException;
     public UserResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
     public String getAllPagination(Pageable pageable);
+    public UserResponse getByUserName(String userName) throws NotFoundException;
 }
