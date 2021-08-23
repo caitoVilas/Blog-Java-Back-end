@@ -16,6 +16,8 @@ import com.caito.blogjava.service.ICommentService;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -107,5 +109,10 @@ public class CommentService implements ICommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(()-> new  NotFoundException(
                 ConstantExeptionMessages.MSG_COMMENT_NOT_FOUND));
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Comment> vewAllComments(Pageable pageable) {
+        return commentRepository.findAll(pageable);
     }
 }
