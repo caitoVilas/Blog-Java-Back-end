@@ -14,16 +14,20 @@ import com.caito.blogjava.repository.CommentRepository;
 import com.caito.blogjava.repository.UserRepository;
 import com.caito.blogjava.service.ICommentService;
 import javassist.NotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @Transactional
@@ -112,7 +116,7 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public Page<Comment> vewAllComments(Pageable pageable) {
-        return commentRepository.findAll(pageable);
+    public Page<Comment> vewAllComments(Long id, Pageable pageable) {
+        return commentRepository.findAllByArticle_id(id, pageable);
     }
-}
+    }
