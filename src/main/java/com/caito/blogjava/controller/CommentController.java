@@ -59,19 +59,20 @@ public class CommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/pageable")
+    @GetMapping("/pageable/{id}")
     @ApiOperation(value = ConstantsSwagger.MSG_SW_COMMENTS_LIST_PAGEABLE)
     public ResponseEntity<Page<Comment>> getAll(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "10") int size,
                                                 @RequestParam(defaultValue = "id") String order,
-                                                @RequestParam(defaultValue = "false") boolean asc){
-        Page<Comment> comments = commentService.vewAllComments(PageRequest.of(
+                                                @RequestParam(defaultValue = "false") boolean asc,
+                                                @PathVariable("id") Long id){
+        Page<Comment> comments = commentService.vewAllComments(id, PageRequest.of(
                 page,
                 size,
                 Sort.by(order)
         ));
         if(!asc){
-            comments = commentService.vewAllComments(PageRequest.of(
+            comments = commentService.vewAllComments(id, PageRequest.of(
                     page,
                     size,
                     Sort.by(order).descending()

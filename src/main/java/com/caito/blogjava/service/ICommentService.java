@@ -16,5 +16,5 @@ public interface ICommentService {
     public CommentResponse getComment(Long id) throws NotFoundException;
     public CommentResponse updateComment(Long id, CommentNew commentNew);
     public void deleteComment(Long id) throws NotFoundException;
-    public Page<Comment> vewAllComments(Pageable pageable);
+    public Page<Comment> vewAllComments(Long id, Pageable pageable);
 }
