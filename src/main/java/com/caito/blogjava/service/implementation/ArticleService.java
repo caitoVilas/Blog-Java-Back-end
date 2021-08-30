@@ -122,6 +122,11 @@ public class ArticleService implements IArticleService {
         return articleRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<Article> searchArticles(String search, Pageable pageable) {
+        return articleRepository.findAllByTitleContains(search, pageable);
+    }
+
     /*@Override
     public String GetAllPaginator(Pageable pageable) {
         Page<Article> articles = articleRepository.findAll(pageable);

@@ -19,4 +19,5 @@ public interface IArticleService {
     public ArticleResponse updateArticle(Long id, NewArticle newArticle);
     public ArticleResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
     public Page<Article> GetAllPaginator(Pageable pageable);
+    public Page<Article> searchArticles(String search, Pageable pageable);
 }
