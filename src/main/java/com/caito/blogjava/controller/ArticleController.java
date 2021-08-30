@@ -90,4 +90,28 @@ public class ArticleController {
       }
       return new ResponseEntity<Page<Article>>(articles, HttpStatus.OK);
     }
+
+    @GetMapping("/search/{search}")
+    @ApiOperation(value = ConstantsSwagger.MS_SW_SEARCH_ARTICLES)
+    public ResponseEntity<Page<Article>> searchArticle(@PathVariable("search") String search,
+                                                       @RequestParam(defaultValue = "0")int page,
+                                                       @RequestParam(defaultValue = "10") int size,
+                                                       @RequestParam(defaultValue = "id") String order,
+                                                       @RequestParam(defaultValue = "false") boolean asc){
+        Page<Article> articles = articleService.searchArticles(search, PageRequest.of(
+                page,
+                size,
+                Sort.by(order)
+        ));
+
+        if(!asc){
+            articles = articleService.searchArticles(search, PageRequest.of(
+                    page,
+                    size,
+                    Sort.by(order).descending()
+            ));
+        }
+
+        return new ResponseEntity<Page<Article>>(articles, HttpStatus.OK);
+    }
 }

@@ -35,4 +35,5 @@ public class ConstantsSwagger {
     public static final String MSG_SW_COMMENTS_UPDATE = "Updte a Comment for id";
     public static final String MSG_SW_COMMENTS_LIST_PAGEABLE = "List of all Comments for Article id";
 
+    public static final String MS_SW_SEARCH_ARTICLES = "List of Result search Pages";
 }
