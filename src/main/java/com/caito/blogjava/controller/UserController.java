@@ -2,6 +2,7 @@ package com.caito.blogjava.controller;
 
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.constatnts.ConstantsSwagger;
+import com.caito.blogjava.dto.ChangePassword;
 import com.caito.blogjava.dto.NewUser;
 import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.exceptions.customs.BadRequestException;
@@ -80,6 +81,13 @@ public class UserController {
     public ResponseEntity<UserResponse> getByUserName(@PathVariable("userName") String userName) throws NotFoundException {
 
         return new ResponseEntity<UserResponse>(userService.getByUserName(userName), HttpStatus.OK);
+    }
+
+    @PutMapping("/chanePass")
+    @ApiOperation(value = ConstantsSwagger.MSG_SW_USERS_CHANGE_PASSWORD)
+    public ResponseEntity<UserResponse> changePass(@RequestBody ChangePassword changePassword) throws NotFoundException {
+
+        return new ResponseEntity<UserResponse>(userService.changePass(changePassword), HttpStatus.OK);
     }
 
 }

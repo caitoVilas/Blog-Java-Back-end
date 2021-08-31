@@ -2,6 +2,7 @@ package com.caito.blogjava.service.implementation;
 
 import com.caito.blogjava.components.PaginationComponent;
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
+import com.caito.blogjava.dto.ChangePassword;
 import com.caito.blogjava.dto.NewUser;
 import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.entity.Role;
@@ -131,6 +132,15 @@ public class UserService implements IUserService {
         if (newUser.getPassword() != null && newUser.getPassword() != ""){
             oldUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         }
+
+        Set<Role> roles = new HashSet<>();
+        if(newUser.getRoles().contains("admin")){
+            roles.add(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get());
+            roles.add(roleRepository.findByRoleName(RoleName.ROLE_USER).get());
+        }else {
+            roles.add(roleRepository.findByRoleName(RoleName.ROLE_USER).get());
+        }
+        oldUser.setRoles(roles);
         userRepository.save(oldUser);
 
         ModelMapper mapper = new ModelMapper();
@@ -172,6 +182,25 @@ public class UserService implements IUserService {
         User user = userRepository.findByUserName(userName).orElseThrow(()-> new  NotFoundException(
                 ConstantExeptionMessages.MSG_USER_NOT_FOUND.concat(userName)));
         ModelMapper mapper = new ModelMapper();
+        return mapper.map(user, UserResponse.class);
+    }
+
+    @Override
+    public UserResponse changePass(ChangePassword changePassword) throws NotFoundException {
+        User user = userRepository.findById(changePassword.getId()).orElseThrow(()-> new NotFoundException(
+                ConstantExeptionMessages.MSG_USER_NOT_FOUND));
+        if (changePassword.getOldPassword() != user.getPassword()){
+            throw new BadRequestException(ConstantExeptionMessages.MSG_USER_PASSWORD_DISTINCT);
+        }
+        if (changePassword.getNewPassword().isEmpty()){
+            throw new BadRequestException(ConstantExeptionMessages.MSG_USER_PASSWORD_EMPTY);
+        }
+
+        user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
+
+        userRepository.save(user);
+        ModelMapper mapper = new ModelMapper();
+
         return mapper.map(user, UserResponse.class);
     }
 

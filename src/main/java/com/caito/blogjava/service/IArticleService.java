@@ -1,7 +1,9 @@
 package com.caito.blogjava.service;
 
 import com.caito.blogjava.dto.ArticleResponse;
+import com.caito.blogjava.dto.ChangePassword;
 import com.caito.blogjava.dto.NewArticle;
+import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.entity.Article;
 import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -20,4 +22,5 @@ public interface IArticleService {
     public ArticleResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
     public Page<Article> GetAllPaginator(Pageable pageable);
     public Page<Article> searchArticles(String search, Pageable pageable);
+
 }
