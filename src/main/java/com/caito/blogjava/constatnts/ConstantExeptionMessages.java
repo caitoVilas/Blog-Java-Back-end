@@ -7,6 +7,7 @@ public final class ConstantExeptionMessages {
     public static final String MSG_USER_EMAIL_EMPTY = "El email es requerido";
     public static final String MSG_USER_EMAIL_EXIST = "El email ya esta registrado";
     public static final String MSG_USER_PASSWORD_EMPTY = "La contraseña es requerida";
+    public static final String MSG_USER_PASSWORD_DISTINCT = "La contraseña no coincide";
 
     public static final String MSG_ARTICLE_TITLE_EMPTY = "El titulo es requerido";
     public static final String MSG_ARTICLE_CONTENT_EMPTY = "El articulo debe tener contenido";

@@ -1,5 +1,6 @@
 package com.caito.blogjava.service;
 
+import com.caito.blogjava.dto.ChangePassword;
 import com.caito.blogjava.dto.NewUser;
 import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.entity.User;
@@ -21,4 +22,5 @@ public interface IUserService {
     public UserResponse uploadImage(MultipartFile file, Long id) throws NotFoundException, IOException;
     public String getAllPagination(Pageable pageable);
     public UserResponse getByUserName(String userName) throws NotFoundException;
+    public UserResponse changePass(ChangePassword changePassword) throws NotFoundException;
 }

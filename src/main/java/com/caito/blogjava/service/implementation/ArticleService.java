@@ -3,6 +3,7 @@ package com.caito.blogjava.service.implementation;
 import com.caito.blogjava.components.PaginationComponent;
 import com.caito.blogjava.constatnts.ConstantExeptionMessages;
 import com.caito.blogjava.dto.ArticleResponse;
+import com.caito.blogjava.dto.ChangePassword;
 import com.caito.blogjava.dto.NewArticle;
 import com.caito.blogjava.dto.UserResponse;
 import com.caito.blogjava.entity.Article;
@@ -126,6 +127,8 @@ public class ArticleService implements IArticleService {
     public Page<Article> searchArticles(String search, Pageable pageable) {
         return articleRepository.findAllByTitleContains(search, pageable);
     }
+
+
 
     /*@Override
     public String GetAllPaginator(Pageable pageable) {

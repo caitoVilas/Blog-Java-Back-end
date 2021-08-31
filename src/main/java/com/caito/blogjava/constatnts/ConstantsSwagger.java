@@ -11,6 +11,7 @@ public class ConstantsSwagger {
     public static final String MSG_SW_USERS_UPLOAD_IMAGE = "Upload image User";
     public static final String MSG_SW_USERS_LIST_PAGEABLE = "List of all Users paged";
     public static final String MSG_SW_GET_USERS_BY_USERMANE = "Get a User by userName";
+    public static final String MSG_SW_USERS_CHANGE_PASSWORD = "Change user password";
 
     public static final String MSG_SW_ARTICLES_API_VALUE = "Articles Controller";
     public static final String MSG_SW_ARTICLES_API_TAG = "Set of Endpoints for Creating, updating and deleting Articles";
