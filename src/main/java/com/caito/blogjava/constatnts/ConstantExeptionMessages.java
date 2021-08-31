@@ -1,0 +1,25 @@
+package com.caito.blogjava.constatnts;
+
+public final class ConstantExeptionMessages {
+    public static final String MSG_USER_NOT_FOUND = "No existe el usuario ";
+    public static final String MSG_USER_NAME_EMPTY = "El campo nombre es requerido";
+    public static final String MSG_USER_USERNAME_EMPTY = "El campo nombre de usuario es requerido";
+    public static final String MSG_USER_EMAIL_EMPTY = "El email es requerido";
+    public static final String MSG_USER_EMAIL_EXIST = "El email ya esta registrado";
+    public static final String MSG_USER_PASSWORD_EMPTY = "La contraseña es requerida";
+    public static final String MSG_USER_PASSWORD_DISTINCT = "La contraseña no coincide";
+
+    public static final String MSG_ARTICLE_TITLE_EMPTY = "El titulo es requerido";
+    public static final String MSG_ARTICLE_CONTENT_EMPTY = "El articulo debe tener contenido";
+    public static final String MSG_ARTICLE_NOT_FOUND = "no existe el articulo";
+
+    public static final String MSG_COMMENT_EMPTY_CONTENT = "El contenido no puede estar vacio";
+    public static final String MSG_COMMENT_NOT_FOUND = "El comentario no existe";
+
+    public static final String MSG_FILE_NOT_IMAGE = "Archivo de imagen no valida";
+    public static final String MSG_FILE_EMPTY = "La imagen e requerida";
+
+    public static final String MSG_MESSAGE_EMAIL_EMPTY = "El e-mail es requerido";
+    public static final String MSG_MESSAGE_MESSAGE_EMPTY = "No hay mensaje";
+    public static final String MSG_MESSAGE_MESAGE_NOT_FOUND = "Mensaje no encontrado";
+}
